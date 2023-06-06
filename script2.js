@@ -22,44 +22,76 @@
 //         console.log('Swiped Left!');
 //         let carouselSlider = document.querySelector('.carousel-slider');
 //         let swipeLength = touchEndX - touchStartX;
-//         carouselSlider.style.transform = "translateX(-10%)";
+//         carouselSlider.style.transform = "translateX(" + swipeLength + "px)";
 //     }
 //     if (touchEndX - touchStartX > 40) {
 //         console.log('Swiped Right!');
 //         let carouselSlider = document.querySelector('.carousel-slider');
 //         let swipeLength = touchEndX - touchStartX;
-//         carouselSlider.style.transform = "translateX(10%)";
+//         carouselSlider.style.transform = "translateX(" + swipeLength + "px)";
 //     }
 // }
 
-const slider1 = document.querySelector('.carousel-container');
+// const slider1 = document.querySelector('.carousel-container');
 
-let isDown = false;
-let startX;
-let scrollLeft;
+// let isDown = false;
+// let startX;
+// let scrollLeft;
 
-slider1.addEventListener('mousedown', (e) => {
-    console.log('mousedown function triggered');
-    isDown = true;
-    slider1.classList.add('active');
-    startX = e.pageX - slider1.offsetLeft;
-    scrollLeft = slider1.scrollLeft;
-})
-slider1.addEventListener('mouseleave', () => {
-    console.log('mouseleave function triggered');
-    isDown = false;
-    slider1.classList.remove('active');
-})
-slider1.addEventListener('mouseup', () => {
-    console.log('mouseup function triggered');
-    isDown = false;
-    slider1.classList.remove('active');
-})
-slider1.addEventListener('mousemove', (e) => {
-    if (!isDown) return; //stop the fn from running
-    console.log('mousemove function triggered');
+// slider1.addEventListener('mousedown', (e) => {
+//     console.log('mousedown function triggered');
+//     isDown = true;
+//     slider1.classList.add('active');
+//     startX = e.pageX - slider1.offsetLeft;
+//     scrollLeft = slider1.scrollLeft;
+// })
+// slider1.addEventListener('mouseleave', () => {
+//     console.log('mouseleave function triggered');
+//     isDown = false;
+//     slider1.classList.remove('active');
+// })
+// slider1.addEventListener('mouseup', () => {
+//     console.log('mouseup function triggered');
+//     isDown = false;
+//     slider1.classList.remove('active');
+// })
+// slider1.addEventListener('mousemove', (e) => {
+//     if (!isDown) return; //stop the fn from running
+//     console.log('mousemove function triggered');
+//     e.preventDefault();
+//     const x = e.pageX - slider1.offsetLeft;
+//     const walk = (x - startX) * 3;
+//     slider1.scrollLeft = scrollLeft - walk;
+// })
+
+let carousel1 = document.querySelector('.carousel-container');
+let isDragStart = false;
+let prevPageX;
+let prevScrollLeft;
+
+const dragStart = (e) => {
+    isDragStart = true;
+    prevPageX = e.pageX || e.touches[0].pageX;
+    prevScrollLeft = carousel1.scrollLeft;
+    console.log(prevScrollLeft);
+}
+
+const dragging = (e) => {
+    if (!isDragStart) return;
     e.preventDefault();
-    const x = e.pageX - slider1.offsetLeft;
-    const walk = (x - startX) * 3;
-    slider1.scrollLeft = scrollLeft - walk;
-})
+    let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
+    carousel1.scrollLeft = prevScrollLeft - positionDiff;
+}
+
+const dragStop = (e) => {
+    isDragStart = false;
+}
+
+carousel1.addEventListener('mousedown', dragStart);
+carousel1.addEventListener('touchstart', dragStart);
+
+carousel1.addEventListener('mousemove', dragging);
+carousel1.addEventListener('touchmove', dragging);
+
+carousel1.addEventListener('mouseup', dragStop);
+carousel1.addEventListener('touchend', dragStop);
