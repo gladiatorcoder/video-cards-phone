@@ -73,14 +73,27 @@ const dragStart = (e) => {
     isDragStart = true;
     prevPageX = e.pageX || e.touches[0].pageX;
     prevScrollLeft = carousel1.scrollLeft;
-    console.log(prevScrollLeft);
 }
 
 const dragging = (e) => {
     if (!isDragStart) return;
     e.preventDefault();
     let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
-    carousel1.scrollLeft = prevScrollLeft - positionDiff;
+    console.log(positionDiff);
+    carousel1.scrollLeft = (prevScrollLeft - positionDiff);
+    if (positionDiff > 0) {
+        carousel1.scrollBy({
+            top: 0,
+            left: -200,
+            behavior: 'smooth'
+        })
+    } else {
+        carousel1.scrollBy({
+            top: 0,
+            left: +200,
+            behavior: 'smooth'
+        })
+    }
 }
 
 const dragStop = (e) => {
