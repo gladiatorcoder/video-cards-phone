@@ -13,6 +13,7 @@
     height: 3000px;
     width: 100%;
     overflow: hidden;
+    scroll-behavior: smooth;
 }
 
 .carousel-slider {
