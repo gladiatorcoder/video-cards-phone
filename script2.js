@@ -64,47 +64,106 @@
 //     slider1.scrollLeft = scrollLeft - walk;
 // })
 
-let carousel1 = document.querySelector('.carousel-container');
-let isDragStart = false;
-let prevPageX;
-let prevScrollLeft;
+// let carousel1 = document.querySelector('.carousel-container');
+// let isDragStart = false;
+// let prevPageX;
+// let prevScrollLeft;
 
-const dragStart = (e) => {
-    isDragStart = true;
-    prevPageX = e.pageX || e.touches[0].pageX;
-    prevScrollLeft = carousel1.scrollLeft;
+// const dragStart = (e) => {
+//     isDragStart = true;
+//     prevPageX = e.pageX || e.touches[0].pageX;
+//     prevScrollLeft = carousel1.scrollLeft;
+// }
+
+// const dragging = (e) => {
+//     if (!isDragStart) return;
+//     e.preventDefault();
+//     let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
+//     console.log(positionDiff);
+//     carousel1.scrollLeft = (prevScrollLeft - positionDiff);
+//     if (positionDiff > 100) {
+//         carousel1.scrollBy({
+//             top: 0,
+//             left: positionDiff * -1 - 300,
+//             behavior: 'smooth'
+//         })
+//     } else if (positionDiff < 100) {
+//         carousel1.scrollBy({
+//             top: 0,
+//             left: positionDiff * -1 + 300,
+//             behavior: 'smooth'
+//         })
+//     }
+// }
+
+// const dragStop = (e) => {
+//     isDragStart = false;
+// }
+
+// carousel1.addEventListener('mousedown', dragStart);
+// carousel1.addEventListener('touchstart', dragStart);
+
+// carousel1.addEventListener('mousemove', dragging);
+// carousel1.addEventListener('touchmove', dragging);
+
+// carousel1.addEventListener('mouseup', dragStop);
+// carousel1.addEventListener('touchend', dragStop);
+
+let carouselSlider1 = document.querySelector('.carousel-slider');
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+carouselSlider1.addEventListener('touchstart', swipe1);
+
+carouselSlider1.addEventListener('touchend', swipe2);
+
+function swipe1(e) {
+    touchStartX = e.changedTouches[0].screenX;
 }
 
-const dragging = (e) => {
-    if (!isDragStart) return;
-    e.preventDefault();
-    let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
-    console.log(positionDiff);
-    carousel1.scrollLeft = (prevScrollLeft - positionDiff);
-    if (positionDiff > 100) {
-        carousel1.scrollBy({
-            top: 0,
-            left: positionDiff * -1 - 300,
-            behavior: 'smooth'
-        })
-    } else if (positionDiff < 100) {
-        carousel1.scrollBy({
-            top: 0,
-            left: positionDiff * -1 + 300,
-            behavior: 'smooth'
-        })
+function swipe2(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    checkDirection();
+}
+
+let position = 0;
+
+function checkDirection() {
+    if (touchEndX < touchStartX) {
+        console.log('Swiped Left!');
+        let carouselSlider = document.querySelector('.carousel-slider');
+        if (position == 0) {
+            carouselSlider.style.transform = "translateX(-75%)";
+            position += 1;
+            console.log(position);
+        } else if (position == 1) {
+            carouselSlider.style.transform = "translateX(-150%)";
+            position += 1;
+            console.log(position);
+        } else if (position == 2) {
+            carouselSlider.style.transform = "translateX(-200%)";
+            position += 1;
+            console.log(position);
+        }
+    }
+    if (touchEndX > touchStartX) {
+        console.log('Swiped Right!');
+        let carouselSlider = document.querySelector('.carousel-slider');
+        if (position == 0) {
+            // carouselSlider.style.transform = "translateX(100%)";
+        } else if (position == 1) {
+            carouselSlider.style.transform = "translateX(0%)";
+            position -= 1;
+            console.log(position);
+        } else if (position == 2) {
+            carouselSlider.style.transform = "translateX(-75%)";
+            position -= 1;
+            console.log(position);
+        } else if (position == 3) {
+            carouselSlider.style.transform = "translateX(-150%)";
+            position -= 1;
+            console.log(position);
+        }
     }
 }
-
-const dragStop = (e) => {
-    isDragStart = false;
-}
-
-carousel1.addEventListener('mousedown', dragStart);
-carousel1.addEventListener('touchstart', dragStart);
-
-carousel1.addEventListener('mousemove', dragging);
-carousel1.addEventListener('touchmove', dragging);
-
-carousel1.addEventListener('mouseup', dragStop);
-carousel1.addEventListener('touchend', dragStop);
