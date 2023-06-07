@@ -84,7 +84,7 @@ const dragging = (e) => {
     if (positionDiff > 0) {
         carousel1.scrollBy({
             top: 0,
-            left: positionDiff,
+            left: positionDiff * -1,
             behavior: 'smooth'
         })
     } else {
