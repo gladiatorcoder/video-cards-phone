@@ -81,13 +81,13 @@ const dragging = (e) => {
     let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
     console.log(positionDiff);
     carousel1.scrollLeft = (prevScrollLeft - positionDiff);
-    if (positionDiff > 0) {
+    if (positionDiff > 100) {
         carousel1.scrollBy({
             top: 0,
             left: positionDiff * -1 - 300,
             behavior: 'smooth'
         })
-    } else {
+    } else if (positionDiff < 100) {
         carousel1.scrollBy({
             top: 0,
             left: positionDiff * -1 + 300,
