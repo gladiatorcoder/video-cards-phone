@@ -130,7 +130,7 @@ function swipe2(e) {
 let position = 0;
 
 function checkDirection() {
-    if (touchEndX < touchStartX) {
+    if (touchEndX - touchStartX < -40) {
         console.log('Swiped Left!');
         let carouselSlider = document.querySelector('.carousel-slider');
         if (position == 0) {
@@ -147,7 +147,7 @@ function checkDirection() {
             console.log(position);
         }
     }
-    if (touchEndX > touchStartX) {
+    if (touchEndX - touchStartX > 40) {
         console.log('Swiped Right!');
         let carouselSlider = document.querySelector('.carousel-slider');
         if (position == 0) {
